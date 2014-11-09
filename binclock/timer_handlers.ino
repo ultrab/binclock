@@ -63,7 +63,6 @@ inline void onTimer() //Second-resolution timer handler
 
 inline void onHRTimer() //High-resolution timer (1/8th of second) handler
 {
-  scanBtn(); //Scan button state and process button handlers
   processRTCTimer(); //Process RTC timer. We do it inside HR timer since polling it from loop wastes too much cycles
   if (buzzer) //We sound buzzer, if it's activated
   {
