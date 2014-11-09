@@ -147,7 +147,6 @@ void setup()
 
 void loop()
 {
-  scanBtn(); //Scan button state and process button handlers
   now = millis(); //Update timer. Millis counter rollover won't affect the logic
   processTimer(); //Process regular timer
   processHRTimer(); //Process HR timer

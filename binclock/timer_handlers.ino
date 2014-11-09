@@ -59,6 +59,7 @@ inline void onTimer() //Second-resolution timer handler
 
 inline void onHRTimer() //High-resolution timer (1/8th of second) handler
 {
+  scanBtn(); //Scan button state and process button handlers
   if (buzzer) //We sound buzzer, if it's activated
   {
     soundBuzzer();
