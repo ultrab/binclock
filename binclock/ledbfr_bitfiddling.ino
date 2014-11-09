@@ -19,13 +19,13 @@
 //LED Buffer bit manipulators//
 ///////////////////////////////
 
-void setHours(unsigned char hours) //Set hours LEDs
+inline void setHours(unsigned char hours) //Set hours LEDs
 {
   led[2] &= 7; //Reset previously set bits with ANDing
   led[2] |= (hours << 3); //Aligning hours properly and ORing it to the LED buffer
 }
 
-void setHours12(unsigned char hours) //Set hours LEDs in 12-hour system
+inline void setHours12(unsigned char hours) //Set hours LEDs in 12-hour system
 {
   if (hours == 0) //If it's 0 hours in 24-hour system, it's 12 AM.
   {
@@ -49,7 +49,7 @@ void setHours12(unsigned char hours) //Set hours LEDs in 12-hour system
   }
 }
 
-void setHours(unsigned char hours, boolean twelve) //Set hours LEDs, automatically selecting appropriate clock system (24/12) accoring to passed boolean value
+inline void setHours(unsigned char hours, boolean twelve) //Set hours LEDs, automatically selecting appropriate clock system (24/12) accoring to passed boolean value
 {
   if (twelve) setHours12(hours);
   else {
@@ -58,7 +58,7 @@ void setHours(unsigned char hours, boolean twelve) //Set hours LEDs, automatical
   }
 }
 
-void setMinutes(unsigned char minutes) //Set minutes LEDs
+inline void setMinutes(unsigned char minutes) //Set minutes LEDs
 {
   led[1] &= 31;
   led[2] &= 248;
@@ -68,7 +68,7 @@ void setMinutes(unsigned char minutes) //Set minutes LEDs
   led[2] |= (tmp >> 3);
 }
 
-void setSeconds(unsigned char seconds) //Set seconds LEDs
+inline void setSeconds(unsigned char seconds) //Set seconds LEDs
 {
   led[0] &= 127;
   led[1] &= 224;
@@ -79,20 +79,20 @@ void setSeconds(unsigned char seconds) //Set seconds LEDs
 }
 
 
-void setAMPM(boolean AM, boolean PM) //Set AM/PM indication
+inline void setAMPM(boolean AM, boolean PM) //Set AM/PM indication
 {
   led[0] &= 159;
   if (AM) led[0] |= 64;
   if (PM) led[0] |= 32;
 }
 
-void setAlarm(boolean set) //Set alarm indication LED
+inline void setAlarm(boolean set) //Set alarm indication LED
 {
   led[0] &= 239;
   if (set) led[0] |= 16;
 }
 
-void setMode(unsigned char mode) //Set mode LEDs
+inline void setMode(unsigned char mode) //Set mode LEDs
 {
   led[0] &= 243;
   switch (mode) {
@@ -110,7 +110,7 @@ void setMode(unsigned char mode) //Set mode LEDs
   }
 }
 
-void setBacklight(boolean first, boolean second) //Set backlight LEDs state
+inline void setBacklight(boolean first, boolean second) //Set backlight LEDs state
 {
   led[0] &= 252;
   if (first) led[0] |= 2;

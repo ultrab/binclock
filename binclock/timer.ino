@@ -19,6 +19,11 @@
 //Timer implementation//
 ////////////////////////
 
+inline void processRTCTimer() //Check, if RTC time updated and call handler if necessary
+{
+  if (checkTimeChg()) onRTCTimer();
+}
+
 inline void processTimer() //Check, if timer interval has passed and call handler if necessary
 {
   if ((now - prevTimer) >= (TMR_SECOND-TimerCorr))

@@ -19,12 +19,16 @@
 //Timer handlers//
 //////////////////
 
-inline void onTimer() //Second-resolution timer handler
+inline void onRTCTimer() //RTC timekeeping timer
 {
   if (set) tickClock(); //Tick clock if set
   if (timerset) tickTimer(); //Tick timer
   if (set && alarmset) checkAlarm(); //Check if alarm went off
   if (alarmbzr && (snooze > 0)) tickSnooze(); //Tick snooze timer
+}
+
+inline void onTimer() //Second-resolution timer handler
+{
   if (mode == MOD_CLOCK) //In clock mode...
   {
     if (cset == 0)
@@ -60,6 +64,7 @@ inline void onTimer() //Second-resolution timer handler
 inline void onHRTimer() //High-resolution timer (1/8th of second) handler
 {
   scanBtn(); //Scan button state and process button handlers
+  processRTCTimer(); //Process RTC timer. We do it inside HR timer since polling it from loop wastes too much cycles
   if (buzzer) //We sound buzzer, if it's activated
   {
     soundBuzzer();

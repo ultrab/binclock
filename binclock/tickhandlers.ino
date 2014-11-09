@@ -31,18 +31,9 @@ inline void tickSnooze() //Process snooze timer
   }
 }
 
-inline void tickClock() //Tick clock one second
+inline void tickClock() //Sync clock with RTC
 {
-  cseconds++; //Just a plain simple incremental counter.
-  if (cseconds > 59) {
-    cseconds = 0;
-    cminutes++;
-    if (cminutes > 59) {
-      cminutes = 0;
-      chours++;
-      if (chours > 23) chours = 0;
-    }
-  }
+  updateTimeFromRTC();
 }
 
 inline void tickTimer() //Tick timer one second and see if it went off
@@ -76,6 +67,7 @@ inline void checkAlarm() //Check if alarm went off
   if ((chours == ahours) && (cminutes == aminutes))
   {
     alarmset = false;
+    storeEEPROMAlarmFlag();
     buzzer = true; //Sound the buzzer
     flash = true;
     animframe = 0;

@@ -19,12 +19,26 @@
 //Tools//
 /////////
 
+void(* softReset) (void) = 0; //Software reset function
+
+inline void fullResetPoll() //Reset device to factory settings (resetting EEPROM) if SET is pressed;
+{
+  if (digitalRead(BTN1) == LOW) //If SET is pressed during POST - we reset the device
+  {
+    resetBuzz();
+    wipeEEPROM();
+    delay(LEN_RESET);
+    softReset();
+  }
+}
+
 inline void POST() //Power-on self test. We just flash all LEDs and sound the buzzer.
 {
   flashLEDs(); //Flash all LEDs
   pushLEDs();
-  tone(BZR,FRQ_POST,LEN_POST); //Sound a short beep
+  POSTBuzz(); //Sound a short beep
   delay(2000); //Wait
   resetLEDs();
   pushLEDs(); //Reset LEDs
+  fullResetPoll(); //Check for hard reset
 }

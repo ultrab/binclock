@@ -15,6 +15,10 @@
  * MA 02110-1301, USA.
  */
 
+#include <EEPROM.h>
+#include "DS1307.h"
+#include <Wire.h>
+
 ///////////////
 //Pin aliases//
 ///////////////
@@ -34,6 +38,9 @@
 
 //Piezo buzzer pin
 #define BZR 3
+
+//RTC Vcc
+#define RTC 5
 
 /////////////
 //Constants//
@@ -69,9 +76,22 @@ const unsigned int ALM_SNOOZE = 300; //5-minute snooze
 const unsigned int LEN_ALARM = 85;
 const unsigned int LEN_BTN = 100;
 const unsigned int LEN_POST = 200;
+const unsigned int LEN_RESET = 2000;
 const unsigned int FRQ_ALARM = 3800;
 const unsigned int FRQ_BTN = 6000;
 const unsigned int FRQ_POST = 4000;
+const unsigned int FRQ_RESET = 3300;
+
+//EEPROM address constants
+const int EEP_USERTC = 0;
+const int EEP_AHOURS = 1;
+const int EEP_AMINUTES = 2;
+const int EEP_PREVALARM = 3;
+const int EEP_ALARMSET = 4;
+const int EEP_TSHOURS = 5;
+const int EEP_TSMINUTES = 6;
+const int EEP_TSSECONDS = 7;
+const int EEP_PREVTIMER = 8;
 
 ////////////////////
 //Global variables//
@@ -86,6 +106,9 @@ unsigned long prevTimer = 0; //Previous milliseconds counter
 unsigned long TimerCorr = 0; //Interval correction
 unsigned long prevHRTimer = 0; //Previous high-res milliseconds counter
 unsigned long HRTimerCorr = 0; //High-res interval correction
+unsigned long prevHourRTC = 0; //Previous RTC state (for RTC-based timer)
+unsigned long prevMinuteRTC = 0;
+unsigned long prevSecondRTC = 0;
 boolean dim = false; //If this variable is true, we switch off all LEDs (night mode)
 boolean ampm = false; //If true, we display hours in 12-hour system rather than 24-hour system.
 
@@ -125,6 +148,9 @@ unsigned char thours = 0; //Current timer variables
 unsigned char tminutes = 0;
 unsigned char tseconds = 0;
 
+//RTC state
+DS1307 clock; //RTC module
+
 ////////////////////////////////
 //Initialization and loop code//
 ////////////////////////////////
@@ -141,8 +167,14 @@ void setup()
   pinMode(CLK,OUTPUT);
   pinMode(BZR,OUTPUT);
   pinMode(DATA,OUTPUT);
+  pinMode(RTC,OUTPUT);
+  digitalWrite(RTC,HIGH); //Supply RTC with power. It's a low-current device, so it could be easily powered with digital pin (<20mA).
   resetLEDs();
   POST(); //Do the power-on self test
+  clock.begin(); //Try to get time from RTC
+  getTimeFromRTC();
+  clock.startClock(); //Start RTC if it doesn't run (because we also use it for alarm & timer and it MUST tick).
+  readEEPROM(); //Read config
 }
 
 void loop()

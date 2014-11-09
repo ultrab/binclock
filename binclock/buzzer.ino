@@ -30,3 +30,13 @@ inline void btnBuzz() //Pushbutton beep
 {
   tone(BZR,FRQ_BTN,LEN_BTN);
 }
+
+inline void POSTBuzz() //POST beep
+{
+  tone(BZR,FRQ_POST,LEN_POST);
+}
+
+inline void resetBuzz() //Device reset beep
+{
+  tone(BZR,FRQ_RESET,LEN_RESET);
+}

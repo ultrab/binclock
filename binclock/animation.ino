@@ -19,7 +19,7 @@
 //LED Animation//
 /////////////////
 
-void setHourFlash(unsigned char *hrptr) //Hours setting animation. Function accepts pointer to hour value to allow reusability for all modes.
+inline void setHourFlash(unsigned char *hrptr) //Hours setting animation. Function accepts pointer to hour value to allow reusability for all modes.
 {
   if (flash) {
     if (*hrptr == 0 && !ampm) setHours(31,false);
@@ -31,7 +31,7 @@ void setHourFlash(unsigned char *hrptr) //Hours setting animation. Function acce
   flash = !flash;
 }
 
-void setMinuteFlash(unsigned char *mnptr) //Minutes setting animation. Function accepts pointer to minute value to allow reusability for all modes.
+inline void setMinuteFlash(unsigned char *mnptr) //Minutes setting animation. Function accepts pointer to minute value to allow reusability for all modes.
 {
   if (flash) {
     if (*mnptr == 0) setMinutes(63);
@@ -43,7 +43,7 @@ void setMinuteFlash(unsigned char *mnptr) //Minutes setting animation. Function 
   flash = !flash;
 }
 
-void setSecondFlash(unsigned char *scptr) //Seconds setting animation. Function accepts pointer to second value to allow reusability for all modes.
+inline void setSecondFlash(unsigned char *scptr) //Seconds setting animation. Function accepts pointer to second value to allow reusability for all modes.
 {
   if (flash) {
     if (*scptr == 0) setSeconds(63);

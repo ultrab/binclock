@@ -39,6 +39,7 @@ inline void handleBtn1() //Handle SET button
       cseconds = 0;
       setSeconds(cseconds);
       cset = 0;
+      storeTimeToRTC(); //Store new time to RTC
       set = true;
       flash = true;
       animframe = 0;
@@ -48,6 +49,7 @@ inline void handleBtn1() //Handle SET button
     if (aset == 0 && set) { //Setting alarm works only if clock are set. Begin setting alarm hour
       aset = 1;
       alarmset = false;
+      storeEEPROMAlarmFlag();
       flash = true;
       setMinutes(aminutes);
     }
@@ -66,6 +68,8 @@ inline void handleBtn1() //Handle SET button
       prevalarm = true;
       flash = true;
       animframe = 0;
+      storeEEPROMAlarmTime();
+      storeEEPROMAlarmFlag();
     }
   }
   else if (mode == MOD_TIMER) {
@@ -99,6 +103,7 @@ inline void handleBtn1() //Handle SET button
       prevtimer = true;
       flash = true;
       animframe = 0;
+      storeEEPROMTimer();
     }
   }
 }
@@ -165,7 +170,11 @@ inline void handleBtn3() //Handle UP button
     if (aset == 0) { //Pressing UP in alarm mode will cause it to toggle alarm (if it was ever set). Pressing UP with snooze active will also cancel it.
       if (prevalarm)
       {
-        if (!alarmbzr) alarmset = !alarmset;
+        if (!alarmbzr)
+        {
+          alarmset = !alarmset;
+          storeEEPROMAlarmFlag();
+        }
         else
         {
           alarmbzr = false;
