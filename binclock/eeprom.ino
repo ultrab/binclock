@@ -44,6 +44,7 @@ inline void readEEPROM() //Read config from EEPROM
   tminutes = tsminutes = EEPROM.read(EEP_TSMINUTES);
   tseconds = tsseconds = EEPROM.read(EEP_TSSECONDS);
   prevtimer = EEPROM.read(EEP_PREVTIMER);
+  ampm = EEPROM.read(EEP_AMPM);
 }
 
 inline void storeEEPROMAlarmTime() //Store alarm time
@@ -56,6 +57,11 @@ inline void storeEEPROMAlarmTime() //Store alarm time
 inline void storeEEPROMAlarmFlag() //Store alarm-set flag
 {
   EEPROM.write(EEP_ALARMSET,alarmset);
+}
+
+inline void storeTimeFormatFlag() //Store current time format flag
+{
+  EEPROM.write(EEP_AMPM,ampm);
 }
 
 inline void storeEEPROMTimer() //Store timer settings
@@ -77,4 +83,5 @@ inline void wipeEEPROM() //Wipe all EEPROM data
   EEPROM.write(EEP_TSMINUTES,0);
   EEPROM.write(EEP_TSSECONDS,0);
   EEPROM.write(EEP_PREVTIMER,0);
+  EEPROM.write(EEP_AMPM,0);
 }

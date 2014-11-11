@@ -92,6 +92,7 @@ const int EEP_TSHOURS = 5;
 const int EEP_TSMINUTES = 6;
 const int EEP_TSSECONDS = 7;
 const int EEP_PREVTIMER = 8;
+const int EEP_AMPM = 9;
 
 ////////////////////
 //Global variables//

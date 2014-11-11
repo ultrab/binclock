@@ -294,6 +294,7 @@ inline void handleBtn5() //Handle 24/12 button.
     if (cset == 0 && set) //It doesn't work if current mode (clock or alarm) is not set. It also won't work in middle of setting clock/alarm
     {
       ampm = !ampm;
+      storeTimeFormatFlag();
       setHours(chours,ampm);
     }
   }
@@ -301,6 +302,7 @@ inline void handleBtn5() //Handle 24/12 button.
     if (aset == 0 && prevalarm)
     {
       ampm = !ampm;
+      storeTimeFormatFlag();
       setHours(chours,ampm);
     }
   }
